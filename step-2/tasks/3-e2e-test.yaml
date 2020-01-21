@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: e2e-test
+spec:
+  steps:
+  - name: git-clone
+    image: alpine/git
+    script: |
+      #!/usr/bin/env sh
+      git clone https://github.com/hrishin/wiki-application.git
+  
+  - name: e2e-test
+    image: golang
+    workingDir: /workspace/wiki-application
+    script: |
+      #!/usr/bin/env sh
+      make e2e

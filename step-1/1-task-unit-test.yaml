@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: unit-test
+spec:
+  steps:
+  - name: git-clone
+    image: alpine/git
+    script: |
+      #!/usr/bin/env sh
+      git clone https://github.com/hrishin/wiki-application.git
+  
+  - name: unit-test
+    image: golang
+    workingDir: /workspace/wiki-application
+    script: |
+      #!/usr/bin/env sh
+      go test -v
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: unit-test-run
+spec:
+  taskRef:
+    name: unit-test

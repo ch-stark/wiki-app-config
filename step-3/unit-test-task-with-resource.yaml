@@ -1,0 +1,43 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: unit-test
+spec:
+  inputs:
+    resources:
+    - name: wiki-application
+      type: git
+  
+  steps:
+  - name: go-test
+    image: golang
+    workingDir: /workspace/wiki-application
+    script: |
+      #!/usr/bin/env sh
+      go test -v
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: wiki-repo
+spec:
+  type: git
+  params:
+  - name: url
+    value: https://github.com/hrishin/wiki-application.git
+  - name: revision
+    value: master
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: unit-test-run
+spec:
+  inputs:
+    resources:
+    - name: wiki-application
+      resourceRef: 
+        name: wiki-repo
+
+  taskRef:
+    name: unit-test

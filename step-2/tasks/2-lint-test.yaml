@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: lint-test
+spec:
+  steps:
+  - name: git-clone
+    image: alpine/git
+    script: |
+      #!/usr/bin/env sh
+      git clone https://github.com/hrishin/wiki-application.git
+  
+  - name: lint-test
+    image: golang
+    workingDir: /workspace/wiki-application
+    script: |
+      #!/usr/bin/env sh
+      if ! [ -x "$(command -v golint)" ]; then
+        apk --no-cache add git
+        echo "Installing golint"
+        go get -u  golang.org/x/lint/golint
+      fi
+      
+      golint .
+      echo "Code looks good \o/"

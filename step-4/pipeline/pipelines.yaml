@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: ci-wiki-application
+spec:
+  resources:
+    - name: wiki-application
+      type: git
+
+  tasks:
+    - name: lint-test
+      taskRef:
+        name: lint-test
+      resources:
+        inputs:
+        - name: wiki-application
+          resource: wiki-application
+
+    - name: unit-test
+      taskRef:
+        name: unit-test
+      resources:
+        inputs:
+        - name: wiki-application
+          resource: wiki-application
+
+    - name: e2e-test
+      taskRef:
+        name: e2e-test
+      runAfter:
+        - lint-test
+        - unit-test
+      resources:
+        inputs:
+        - name: wiki-application
+          resource: wiki-application
+
+    - name: acceptence-test
+      taskRef:
+        name: acceptence-test
+      runAfter:
+        - lint-test
+        - unit-test
+      resources:
+        inputs:
+        - name: wiki-application
+          resource: wiki-application

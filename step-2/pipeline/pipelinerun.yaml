@@ -1,0 +1,7 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: ci-wiki-application-run
+spec:
+  pipelineRef:
+    name: ci-wiki-application

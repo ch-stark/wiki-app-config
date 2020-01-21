@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: unit-test
+spec:
+  inputs:
+    resources:
+    - name: wiki-application
+      type: git
+
+  steps:
+  - name: unit-test
+    image: golang
+    workingDir: /workspace/wiki-application
+    script: |
+      #!/usr/bin/env sh
+      go test -v

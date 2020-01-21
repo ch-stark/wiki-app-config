@@ -1,0 +1,13 @@
+apiVersion: tekton.dev/v1alpha1
+kind: TaskRun
+metadata:
+  name: lint-test-run
+spec:
+  inputs:
+    resources:
+    - name: wiki-application
+      resourceRef: 
+        name: wiki-repo
+
+  taskRef:
+    name: lint-test
