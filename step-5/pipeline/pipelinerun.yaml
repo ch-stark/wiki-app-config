@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: ci-wiki-application-run
+spec:
+  pipelineRef:
+    name: ci-wiki-application
+  resources:
+  - name: wiki-application
+    resourceRef:
+      name: wiki-repo
+  - name: built-image
+    resourceRef:
+      name: wiki-image

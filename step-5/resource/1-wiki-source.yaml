@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: wiki-repo
+spec:
+  type: git
+  params:
+  - name: url
+    value: https://github.com/hrishin/wiki-application.git
+  - name: revision
+    value: master

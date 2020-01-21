@@ -1,0 +1,31 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: deploy-application
+spec:
+  inputs:
+    resources:
+    - name: wiki-application
+      type: git
+
+    - name: new-image
+      type: image
+
+  steps:
+  - name: replace-image
+    image: mikefarah/yq
+    command: ["yq"]
+    args:
+    - "w"
+    - "-i"
+    - "/workspace/wiki-application/deployment-manifests/deployment.yaml"
+    - "spec.template.spec.containers[0].image"
+    - "$(inputs.resources.new-image.url)"
+  
+  - name: deploy-resources
+    image: lachlanevenson/k8s-kubectl
+    command: ["kubectl"]
+    args:
+    - apply
+    - -f
+    - /workspace/wiki-application/deployment-manifests

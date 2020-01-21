@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name:  build-image
+spec:
+  inputs:
+    resources:
+      - name: wiki-application
+        type: git
+
+  outputs:
+    resources:
+      - name: dest-image
+        type: image
+
+  steps:
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor
+      command:
+        - /kaniko/executor
+      args:
+        - --context=/workspace/wiki-application/
+        - --dockerfile=/workspace/wiki-application/Dockerfile
+        - --destination=$(outputs.resources.destImage.url)
+      securityContext:
+        privileged: true
