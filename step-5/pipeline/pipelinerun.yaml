@@ -5,6 +5,7 @@ metadata:
 spec:
   pipelineRef:
     name: ci-wiki-application
+  serviceAccountName: pipeline
   resources:
   - name: wiki-application
     resourceRef:
