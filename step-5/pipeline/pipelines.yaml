@@ -8,8 +8,7 @@ spec:
       type: git
 
     - name: built-image
-      resourceRef:
-        name: wiki-image
+      type: image
 
   tasks:
     - name: lint-test
@@ -55,6 +54,9 @@ spec:
       runAfter: ['e2e-task', 'acceptance-task']
       taskRef:
         name: build-image
+      runAfter:
+        - lint-test
+        - unit-test
       resources:
         inputs:
         - name: wiki-application
@@ -67,6 +69,8 @@ spec:
       runAfter: [build-task]
       taskRef:
         name: deploy-application
+      runAfter:
+        - build-task
       resources:
         inputs:
         - name: new-image

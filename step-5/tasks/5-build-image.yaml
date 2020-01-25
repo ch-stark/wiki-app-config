@@ -21,6 +21,6 @@ spec:
       args:
         - --context=/workspace/wiki-application/
         - --dockerfile=/workspace/wiki-application/Dockerfile
-        - --destination=$(outputs.resources.destImage.url)
+        - --destination=$(outputs.resources.dest-image.url)
       securityContext:
         privileged: true
