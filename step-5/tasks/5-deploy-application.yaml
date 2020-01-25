@@ -5,6 +5,8 @@ metadata:
 spec:
   inputs:
     resources:
+    - name: wiki-application
+      type: git
     - name: new-image
       type: image
 

@@ -49,20 +49,21 @@ spec:
         - name: wiki-application
           resource: wiki-application
 
-
     - name: build-task
-      runAfter: ['e2e-task', 'acceptance-task']
+      runAfter:
+        - e2e-test
+        - acceptence-test
       taskRef:
-        name: build-image
+        name: buildah
       runAfter:
         - lint-test
         - unit-test
       resources:
         inputs:
-        - name: wiki-application
+        - name: source
           resource: wiki-application
         outputs:
-        - name: dest-image
+        - name: image
           resource: built-image
 
     - name: deploy-task
@@ -73,5 +74,7 @@ spec:
         - build-task
       resources:
         inputs:
+        - name: wiki-application
+          resource: wiki-application
         - name: new-image
           resource: built-image

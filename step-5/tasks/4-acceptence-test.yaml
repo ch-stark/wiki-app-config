@@ -15,3 +15,5 @@ spec:
     script: |
       #!/usr/bin/env sh
       make acceptance
+    securityContext:
+      privileged: true

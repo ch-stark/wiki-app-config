@@ -31,7 +31,7 @@ spec:
 apiVersion: tekton.dev/v1alpha1
 kind: TaskRun
 metadata:
-  name: unit-test-run
+  name: unit-test-run-with-resource
 spec:
   inputs:
     resources:
